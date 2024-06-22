@@ -71,13 +71,49 @@ int wipe(FILE *fp, struct fat_dir *dir, struct fat_bpb *bpb){
     return 0;
 }
 
+
 void mv(FILE *fp, char *filename, struct fat_bpb *bpb){
     ;; /* TODO */
 }
 
+
+
 void rm(FILE *fp, char *filename, struct fat_bpb *bpb){
-    ;; /* TODO */
+
+    struct fat_dir *dirs = ls(fp, bpb);
+    struct fat_dir dir_to_remove = find(dirs, filename, bpb);
+
+    if (strncmp((char *) dir_to_remove.name, filename, 11) == 0) {
+        if (wipe(fp, &dir_to_remove, bpb) != 0) {
+            fprintf(stderr, "Erro ao limpar os clusters do arquivo\n");
+            free(dirs);
+            return;
+        }
+
+        int dir_index = -1;
+        for (int i = 0; i < bpb->possible_rentries; i++) {
+            if (memcmp(&dirs[i], &dir_to_remove, sizeof(struct fat_dir)) == 0) {
+                dir_index = i;
+                break;
+            }
+        }
+
+        if (dir_index != -1) {
+
+            uint32_t dir_offset = bpb_froot_addr(bpb) + dir_index * sizeof(struct fat_dir);
+
+            fseek(fp, dir_offset, SEEK_SET);
+            fputc(0xE5, fp);
+        } else {
+            fprintf(stderr, "Erro ao encontrar o índice do diretório\n");
+        }
+    } else {
+        fprintf(stderr, "Arquivo não encontrado\n");
+    }
+
+    free(dirs);
 }
+
 
 void cp(FILE *fp, char *filename, char *file_dst_name, struct fat_bpb *bpb){
 
@@ -117,8 +153,6 @@ void cp(FILE *fp, char *filename, char *file_dst_name, struct fat_bpb *bpb){
     free(buffer);
     fclose(dst_file);
     free(dir);
-
-    
 
 }
 
