@@ -53,7 +53,7 @@ int main(int argc, char **argv){
             fclose(fp);
         }
 
-        if (strcmp(command, "mv") == 0){
+        if (strcmp(command, "mv") == 0){ //move o arquivo do FAT
             mv(fp, argv[2], &bpb);
             fclose(fp);
         }
@@ -61,7 +61,7 @@ int main(int argc, char **argv){
             rm(fp, argv[2], &bpb);
             fclose(fp);
         }
-        if (strcmp(command, "mv2") == 0){
+        if (strcmp(command, "mv2") == 0){//move o arquivo local para dentro do FAT
             mv2(fp, argv[2], &bpb);
             fclose(fp);
         }
