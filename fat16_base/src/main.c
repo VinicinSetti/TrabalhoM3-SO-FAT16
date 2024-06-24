@@ -49,7 +49,7 @@ int main(int argc, char **argv){
         }
 
         if (strcmp(command, "cp") == 0){
-            cp(fp, argv[3], argv[4], &bpb);
+            cp(fp, argv[2], argv[3], &bpb);
             fclose(fp);
         }
 
@@ -58,7 +58,11 @@ int main(int argc, char **argv){
             fclose(fp);
         }
         if (strcmp(command, "rm") == 0){
-            rm(fp, argv[3], &bpb);
+            rm(fp, argv[2], &bpb);
+            fclose(fp);
+        }
+        if (strcmp(command, "mv2") == 0){
+            mv2(fp, argv[2], &bpb);
             fclose(fp);
         }
     }
