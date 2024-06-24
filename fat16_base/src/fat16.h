@@ -13,6 +13,7 @@
 #define DIR_ATTR_DIRECTORY 1 << 4 /* describes a subdirectory */
 #define DIR_ATTR_ARCHIVE 1 << 5 /*  archive flag (always set when file is modified */
 #define DIR_ATTR_LFN 0xf /* not used */
+#define FAT_EOF 0xFFFF
 
 #define SIG 0xAA55 /* boot sector signature -- sector is executable */
 
